@@ -10,12 +10,12 @@ class Dataset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=120)
     # image = models.ImageField(upload_to='media/dataset')
-    modified = models.DateTimeField()
+    modified = models.DateTimeField(editable=False)
     created = models.DateTimeField(editable=False)
     slug = models.SlugField(unique=True, max_length=150, editable=False)
 
     def get_slug(self):
-        slug = slugify(self.user.username +
+        slug = slugify(self.user.username + '-' +
                        self.title.replace("ı", "i").replace("ş", "s").replace("ü", "u")
                        .replace("ç", "c").replace("ö", "o").replace("ğ", "g"))
         unique = slug
@@ -31,3 +31,6 @@ class Dataset(models.Model):
         self.modified = timezone.now()
         self.slug = self.get_slug()
         return super(Dataset, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.slug

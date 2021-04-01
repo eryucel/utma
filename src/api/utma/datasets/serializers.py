@@ -8,5 +8,17 @@ class DatasetSerializer(serializers.ModelSerializer):
         model = Dataset
         fields = [
             'title',
-            'user'
+            'user',
+            'slug',
+            'created',
+            'modified'
+        ]
+
+
+class DatasetCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dataset
+        fields = [
+            'title',
+            'user',
         ]
