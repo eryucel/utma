@@ -1,5 +1,7 @@
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView, CreateAPIView
 
+from utma.datasets.paginations import DatasetPagination
 from utma.datasets.serializers import DatasetSerializer
 from utma.datasets.models import Dataset
 from rest_framework.permissions import (
@@ -14,6 +16,13 @@ class DatasetListAPIView(ListAPIView):
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
     permission_classes = [IsAdminUser]
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title']
+    pagination_class = DatasetPagination
+
+    def get_queryset(self):
+        queryset = Dataset.objects.filter(draft=False)
+        return queryset
 
 
 class DatasetDetailAPIView(RetrieveAPIView):
