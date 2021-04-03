@@ -6,6 +6,7 @@ from utma.datasets.views import (DatasetListAPIView,
                                  DatasetUpdateAPIView,
                                  DatasetCreateAPIView)
 
+app_name = 'dataset'
 urlpatterns = [
     path('list', DatasetListAPIView.as_view(), name='list'),
     path('detail/<slug>', DatasetDetailAPIView.as_view(), name='detail'),

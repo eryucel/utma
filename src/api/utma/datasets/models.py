@@ -9,7 +9,8 @@ from django.utils.text import slugify
 class Dataset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=120)
-    # image = models.ImageField(upload_to='media/dataset')
+    # image = models.ImageField(upload_to='dataset')
+    draft = models.BooleanField()
     modified = models.DateTimeField(editable=False)
     created = models.DateTimeField(editable=False)
     slug = models.SlugField(unique=True, max_length=150, editable=False)
