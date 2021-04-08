@@ -1,10 +1,10 @@
 from django.urls import path
 
-from utma.datasets.views import (DatasetListAPIView,
-                                 DatasetDetailAPIView,
-                                 DatasetDeleteAPIView,
-                                 DatasetUpdateAPIView,
-                                 DatasetCreateAPIView)
+from utma.dataset.views import (DatasetListAPIView,
+                                DatasetDetailAPIView,
+                                DatasetDeleteAPIView,
+                                DatasetUpdateAPIView,
+                                DatasetCreateAPIView)
 
 app_name = 'dataset'
 urlpatterns = [

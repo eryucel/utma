@@ -10,7 +10,6 @@ class Dataset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=120)
     # image = models.ImageField(upload_to='dataset')
-    draft = models.BooleanField()
     modified = models.DateTimeField(editable=False)
     created = models.DateTimeField(editable=False)
     slug = models.SlugField(unique=True, max_length=150, editable=False)
@@ -35,3 +34,10 @@ class Dataset(models.Model):
 
     def __str__(self):
         return self.slug
+
+    # def children(self):
+    #     return Comment.objects.filter(parent=self)
+    #
+    # @property
+    # def any_children(self):
+    #     return Comment.objects.filter(parent=self).exists()

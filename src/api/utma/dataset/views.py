@@ -1,14 +1,14 @@
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView, CreateAPIView
 
-from utma.datasets.paginations import DatasetPagination
-from utma.datasets.serializers import DatasetSerializer
-from utma.datasets.models import Dataset
+from utma.dataset.paginations import DatasetPagination
+from utma.dataset.serializers import DatasetSerializer
+from utma.dataset.models import Dataset
 from rest_framework.permissions import (
     IsAuthenticated,
     IsAdminUser
 )
-from utma.datasets.permissions import IsOwnerOrAdmin
+from utma.dataset.permissions import IsOwnerOrAdmin
 
 
 # Create your views here.
@@ -20,9 +20,9 @@ class DatasetListAPIView(ListAPIView):
     search_fields = ['title']
     pagination_class = DatasetPagination
 
-    def get_queryset(self):
-        queryset = Dataset.objects.filter(draft=False)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = Dataset.objects.filter(draft=False)
+    #     return queryset
 
 
 class DatasetDetailAPIView(RetrieveAPIView):

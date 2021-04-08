@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from utma.datasets.models import Dataset
+from utma.dataset.models import Dataset
 
 
 # Create your serializers here.
