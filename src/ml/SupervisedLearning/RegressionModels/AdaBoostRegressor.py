@@ -1,4 +1,4 @@
-from preprocessing import PreProcessing
+from python.ml.PreProcessing.preprocessing import PreProcessing
 import matplotlib. pyplot as plt
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn import metrics
