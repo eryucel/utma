@@ -1,7 +1,7 @@
 
 
-from python.ml.PreProcessing.preprocessing import PreProcessing
-from python.ml.Visualization.Visualization_Functions import Visualization
+from src.ml.PreProcessing.preprocessing import PreProcessing
+from src.ml.Visualization.Visualization_Functions import Visualization
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
