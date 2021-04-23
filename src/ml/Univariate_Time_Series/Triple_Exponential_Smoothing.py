@@ -7,6 +7,7 @@ from sktime.forecasting.model_selection import temporal_train_test_split
 from sklearn.metrics import mean_absolute_error
 from sktime.utils.plotting import plot_series
 from sktime.performance_metrics.forecasting import smape_loss
+import itertools
 class Triple_Exponential_Smoothing:
   def __init__(self,path,time_freq,trend="add",seasonal="add",time_column=0,sp=12,day_to_month=False,month_to_year=False,test_size=0.2,model="additive"):
     preload=Load_and_Visualize_Time_Data(path,time_column,model)
