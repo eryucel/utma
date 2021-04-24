@@ -1,5 +1,5 @@
 from src.ml.PreProcessing.preprocessing import PreProcessing
-from Visualization_Functions import Visualization
+from src.ml.Visualization.Visualization_Functions import Visualization
 import matplotlib. pyplot as plt
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import log_loss
