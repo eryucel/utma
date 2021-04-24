@@ -7,6 +7,9 @@ from sklearn import metrics
 import numpy as np
 import sys
 import io
+from functools import partial
+from hyperopt import hp, fmin, tpe, Trials
+from hyperopt import space_eval
 
 class SvmClassification():
     def __init__(self,predicted_column,path,categorical_columns,sheet_name=None,train_test_split=True,supplied_test_set=None,percentage_split=0.2):
@@ -34,7 +37,7 @@ class SvmClassification():
         self.y_test = y_test
         return True
 
-    def training(self, train_test_split=True):
+    def training(self,args={"random_state":1}):
         self.__get_data()
         self.regr = SVC(random_state=1)
         self.regr.fit(self.X_train, self.y_train)
@@ -83,3 +86,75 @@ class SvmClassification():
     def classification_report(self):
         target_names = self.label_names.astype(str)
         return classification_report(self.y_test, self.y_pred_linear.round(), target_names=target_names)
+    def hyperopt_optimization(self):
+      self.__get_data()
+      def define_space():
+        space = hp.choice('classifier',[
+                      {
+                       'model': SVC,
+                       'param':
+                         {
+                            "C":hp.uniform("C",0.1,1.0),
+                            "kernel":hp.choice("kernel",["linear", "poly", "rbf", "sigmoid"]),
+                            "degree":hp.quniform("degree",1,3,1),
+                            "gamma":hp.choice("gamma",["auto","scale"]),
+                            "coef0":hp.uniform("coef0",0.0,1.0),
+                            "shrinking":hp.choice("shrinking",[True,False]),
+                            "probability":hp.choice("probability",[True,False]),
+                            "class_weight":hp.choice("class_weight",["balanced",None]),
+                            "decision_function_shape":hp.choice("decision_function_shape",["ovo","ovr"]),
+                            "break_ties":hp.choice("break_ties",[True,False]),
+                            "random_state":hp.choice('random_state', [0,42,None]),
+                         }
+                      }])
+        return space
+      def optimize(args):
+          C = args['param']['C']
+          kernel = args['param']['kernel']
+          degree = args['param']['degree']
+          gamma = args['param']['gamma']
+          coef0 = args['param']['coef0']
+          shrinking = args['param']['shrinking']
+          probability = args['param']['probability']
+          class_weight = args['param']['class_weight']
+          decision_function_shape = args['param']['decision_function_shape']
+          break_ties = args['param']['break_ties']
+          random_state = args['param']['random_state']
+
+          model=SVC(C=C,kernel=kernel,degree=degree,gamma=gamma,coef0=coef0,shrinking=shrinking,probability=probability,
+                    class_weight=class_weight,decision_function_shape=decision_function_shape,break_ties=break_ties,random_state=random_state,)
+          model.fit(self.X_train,self.y_train)
+          self.y_pred = self.regr.decision_function(self.X_test)
+          self.y_pred_linear = self.regr.predict(self.X_test)
+          return metrics.hinge_loss(self.y_test,self.y_pred)
+      import warnings
+      warnings.filterwarnings('ignore')
+      optimziation_function=partial(optimize)
+      trials=Trials()
+      space=define_space()
+      result=fmin(
+          fn=optimziation_function,
+          space=space,
+          algo=tpe.suggest,
+          max_evals=10, #bu değer değerlendirilecek
+          trials=trials
+      )
+      self.best_parameters=space_eval(space,result)
+      return self.best_parameters
+    def run_optimized_model(self):
+      C = self.best_parameters['param']['C']
+      kernel = self.best_parameters['param']['kernel']
+      degree = self.best_parameters['param']['degree']
+      gamma = self.best_parameters['param']['gamma']
+      coef0 = self.best_parameters['param']['coef0']
+      shrinking = self.best_parameters['param']['shrinking']
+      probability = self.best_parameters['param']['probability']
+      class_weight = self.best_parameters['param']['class_weight']
+      decision_function_shape = self.best_parameters['param']['decision_function_shape']
+      break_ties = self.best_parameters['param']['break_ties']
+      random_state = self.best_parameters['param']['random_state']
+      args={"C":C,"kernel":kernel,"degree":degree,"gamma":gamma,"coef0":coef0,"shrinking":shrinking,"probability":probability,
+            "class_weight":class_weight,"decision_function_shape":decision_function_shape,"break_ties":break_ties,"random_state":random_state}
+      print(self.training(args))
+      print(self.classification_report())
+      print(self.visualize())

@@ -1,14 +1,15 @@
 from src.ml.PreProcessing.preprocessing import PreProcessing
-from sklearn.ensemble import RandomForestClassifier
 from src.ml.Visualization.Visualization_Functions import Visualization
-from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import log_loss
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import metrics
 from sklearn.metrics import classification_report
 import sys
 import io
+from functools import partial
+from hyperopt import hp,fmin,tpe,Trials
+from hyperopt import space_eval
 class RandomForest_Classifier():
   def __init__(self,predicted_column,path,categorical_columns,sheet_name=None,train_test_split=True,supplied_test_set=None,percentage_split=0.2):
       self.predicted_column = predicted_column
@@ -35,7 +36,7 @@ class RandomForest_Classifier():
       self.y_test=y_test
       return True
 
-  def training(self,train_test_split=True):
+  def training(self,args={"max_depth":10,"random_state":0}):
     self.__get_data()
     self.classification =RandomForestClassifier(max_depth=10, random_state=0)
     self.classification.fit(self.X_train, self.y_train)
@@ -83,4 +84,92 @@ class RandomForest_Classifier():
   def classification_report(self):
       target_names = self.label_names.astype(str)
       return classification_report(self.y_test, self.y_pred_linear.round(), target_names=target_names)
+  def hyperopt_optimization(self):
+      self.__get_data()
+      def define_space():
+        space = hp.choice('classifier',[
+                      {
+                       'model': RandomForestClassifier,
+                       'param':
+                         {
+                            "n_estimators":hp.quniform("n_estimators",20,100,1),
+                            "criterion":hp.choice("criterion",["gini", "entropy"]),
+                            "max_depth":hp.quniform("max_depth",5,30,1),
+                            "min_samples_split":hp.uniform("min_samples_split",0.1,1.0),
+                            "min_samples_leaf":hp.uniform("min_samples_leaf",0.1,0.5),
+                            "min_weight_fraction_leaf":hp.uniform("min_weight_fraction_leaf",0.0,0.5),
+                            "max_features_choices":hp.choice("max_features_choices",
+                                                  [
+                                                    {
+                                                        "max_features":hp.uniform("max_features_1",0.1,1.0)},
+                                                   {
+                                                        "max_features":hp.choice("max_features_2",["auto","sqrt","log2",None])
+                                                    },
+                            ]),
+                          "bootstrap_choices":hp.choice("bootstrap_choices",
+                                                  [
+                                                    {
+                                                        "bootstrap":hp.choice("bootstrap_1",[False]),
+                                                        "oob_score":hp.choice("oob_1",[False])
+                                                        },
+                                                   {
+                                                        "bootstrap":hp.choice("bootstrap_2",[True]),
+                                                        "oob_score":hp.choice("oob_2",[True,False])
+                                                    },
+                            ]),
+                            "class_weight":hp.choice("class_weight",["balanced", "balanced_subsample",None]),
+                            "random_state":hp.choice('random_state', [0,42,None]),
+                         }
+                      }])
+        return space
+      def optimize(args):
+          n_estimators = int(args['param']['n_estimators'])
+          criterion = args['param']['criterion']
+          max_depth = args['param']['max_depth']
+          min_samples_split =args['param']['min_samples_split']
+          min_samples_leaf = args['param']['min_samples_leaf']
+          min_weight_fraction_leaf = args['param']['min_weight_fraction_leaf']
+          max_features = args['param']['max_features_choices']["max_features"]
+          bootstrap = args['param']["bootstrap_choices"]['bootstrap']
+          oob_score = args['param']["bootstrap_choices"]['oob_score']
+          class_weight = args['param']['class_weight']
+          random_state = args['param']['random_state']
 
+          model=RandomForestClassifier(n_estimators=n_estimators,criterion=criterion,max_depth=max_depth,
+                                   min_samples_split=min_samples_split,min_samples_leaf=min_samples_leaf,min_weight_fraction_leaf=min_weight_fraction_leaf,
+                                   max_features=max_features,bootstrap=bootstrap,oob_score=oob_score,class_weight=class_weight,random_state=random_state,)
+          model.fit(self.X_train,self.y_train)
+          self.y_pred = self.classification.predict_proba(self.X_test)
+          return log_loss(self.y_test,self.y_pred)
+      import warnings
+      warnings.filterwarnings('ignore')
+      optimziation_function=partial(optimize)
+      trials=Trials()
+      space=define_space()
+      result=fmin(
+          fn=optimziation_function,
+          space=space,
+          algo=tpe.suggest,
+          max_evals=100, #bu değer değerlendirilecek
+          trials=trials
+      )
+      self.best_parameters=space_eval(space,result)
+      return self.best_parameters
+  def run_optimized_model(self):
+      n_estimators = int(self.best_parameters['param']['n_estimators'])
+      criterion = self.best_parameters['param']['criterion']
+      max_depth = self.best_parameters['param']['max_depth']
+      min_samples_split = self.best_parameters['param']['min_samples_split']
+      min_samples_leaf = self.best_parameters['param']['min_samples_leaf']
+      min_weight_fraction_leaf = self.best_parameters['param']['min_weight_fraction_leaf']
+      max_features = self.best_parameters['param']['max_features_choices']["max_features"]
+      bootstrap = self.best_parameters['param']["bootstrap_choices"]['bootstrap']
+      oob_score = self.best_parameters['param']["bootstrap_choices"]['oob_score']
+      class_weight = self.best_parameters['param']['class_weight']
+      random_state = self.best_parameters['param']['random_state']
+      args={"n_estimators":n_estimators,"criterion":criterion,"max_depth":max_depth,
+            "min_samples_split":min_samples_split,"min_samples_leaf":min_samples_leaf,"min_weight_fraction_leaf":min_weight_fraction_leaf,
+            "max_features":max_features,"bootstrap":bootstrap,"oob_score":oob_score,"class_weight":class_weight,"random_state":random_state}
+      print(self.training(args))
+      print(self.classification_report())
+      self.visualize()

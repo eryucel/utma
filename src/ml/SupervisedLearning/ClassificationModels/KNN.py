@@ -9,6 +9,10 @@ from sklearn.metrics import classification_report
 import sys
 import io
 from sklearn.metrics import accuracy_score
+from functools import partial
+from hyperopt import hp, fmin, tpe, Trials
+from hyperopt import space_eval
+
 class KNearestNeighbors():
     def __init__(self,predicted_column,path,categorical_columns,sheet_name=None,train_test_split=True,supplied_test_set=None,percentage_split=0.2):
         self.predicted_column = predicted_column
@@ -35,7 +39,7 @@ class KNearestNeighbors():
         self.y_test = y_test
         return True
 
-    def training(self, train_test_split=True):
+    def training(self):
         self.__get_data()
         best_score = 0
         best_k = 1
@@ -93,3 +97,71 @@ class KNearestNeighbors():
     def classification_report(self):
           target_names = self.label_names.astype(str)
           return classification_report(self.y_test, self.y_pred_linear.round(), target_names=target_names)
+    def optimized_training(self,args):
+        self.__get_data()
+        self.regr = KNeighborsClassifier(**args)
+        self.regr.fit(self.X_train, self.y_train)
+        self.y_pred = self.regr.predict_proba(self.X_test)
+        self.y_pred_linear = self.regr.predict(self.X_test)
+        old_stdout = sys.stdout
+        new_stdout = io.StringIO()
+        sys.stdout = new_stdout
+        print('Cross-Track error: %.3f'
+      % log_loss(self.y_test,self.y_pred))
+        print("Accuracy Of Model", accuracy_score(self.y_test,self.y_pred_linear))
+        output = new_stdout.getvalue()
+        sys.stdout = old_stdout
+        return output
+    def hyperopt_optimization(self):
+      self.__get_data()
+      def define_space():
+        space = hp.choice('classifier',[
+                      {
+                       'model': KNeighborsClassifier,
+                       'param':
+                         {
+                            "n_neighbors":hp.quniform("n_neighbors",1,int(math.sqrt(self.count))*2,1),
+                            "weights":hp.choice("weights",["uniform", "distance"]),
+                            "algorithm":hp.choice("algorithm",["auto", "ball_tree", "kd_tree", "brute"]),
+                            "leaf_size":hp.randint("leaf_size",100),
+                            "p":hp.choice("p",[1,2]),
+                         }
+                      }])
+        return space
+      def optimize(args):
+          n_neighbors = args['param']['n_neighbors']
+          n_neighbors=int(n_neighbors)
+          weights = args['param']['weights']
+          algorithm = args['param']['algorithm']
+          leaf_size = args['param']['leaf_size']+10
+          p = args['param']['p']
+
+          model=KNeighborsClassifier(n_neighbors=n_neighbors,weights=weights,algorithm=algorithm,leaf_size=leaf_size,p=p)
+          model.fit(self.X_train,self.y_train)
+          #preds=model.predict(self.X_test)
+          preds=model.predict_proba(self.X_test)
+          #accuracy=metrics.accuracy_score(self.y_test,preds)
+          return log_loss(self.y_test,preds)
+      optimziation_function=partial(optimize)
+      trials=Trials()
+      space=define_space()
+      result=fmin(
+          fn=optimziation_function,
+          space=space,
+          algo=tpe.suggest,
+          max_evals=100, #bu değer değerlendirilecek
+          trials=trials
+      )
+      self.best_parameters=space_eval(space,result)
+      return self.best_parameters
+    def run_optimized_model(self):
+      n_neighbors = self.best_parameters['param']['n_neighbors']
+      n_neighbors=int(n_neighbors)
+      weights = self.best_parameters['param']['weights']
+      algorithm = self.best_parameters['param']['algorithm']
+      leaf_size = self.best_parameters['param']['leaf_size']+10
+      p = self.best_parameters['param']['p']
+      args={"n_neighbors":n_neighbors,"weights":weights,"algorithm":algorithm,"leaf_size":leaf_size,"p":p}
+      print(self.optimized_training(args))
+      print(self.classification_report())
+      print(self.visualize())
