@@ -2,4 +2,5 @@
 *.iml
 src/api/.idea/misc.xml
 src/api/.idea/*
+src/api/venv/*
 *__pycache__
