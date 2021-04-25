@@ -22,6 +22,10 @@ class DatasetSerializer(serializers.ModelSerializer):
             'created',
             'modified'
         ]
+        # exclude = [
+        #     'created',
+        #     'modified'
+        # ]
 
     def get_username(self, obj):
         return str(obj.user.username)
