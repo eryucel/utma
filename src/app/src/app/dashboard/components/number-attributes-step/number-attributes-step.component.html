@@ -1,0 +1,28 @@
+<table mat-table [dataSource]="numberAttributesDataSource" class="numberAttributesTable w-100">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Özellik</th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="min">
+    <th mat-header-cell *matHeaderCellDef> Minimum</th>
+    <td mat-cell *matCellDef="let element"> {{element.min}} </td>
+  </ng-container>
+  <ng-container matColumnDef="max">
+    <th mat-header-cell *matHeaderCellDef> Maksimum</th>
+    <td mat-cell *matCellDef="let element"> {{element.max}} </td>
+  </ng-container>
+  <ng-container matColumnDef="mean">
+    <th mat-header-cell *matHeaderCellDef> Ortalama</th>
+    <td mat-cell *matCellDef="let element"> {{element.mean}} </td>
+  </ng-container>
+  <ng-container matColumnDef="distinct">
+    <th mat-header-cell *matHeaderCellDef> Ayrık</th>
+    <td mat-cell *matCellDef="let element"> {{element.distinct}} </td>
+  </ng-container>
+  <ng-container matColumnDef="missing">
+    <th mat-header-cell *matHeaderCellDef> Eksik</th>
+    <td mat-cell *matCellDef="let element"> {{element.missing}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['name','min','max','mean','distinct','missing']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['name','min','max','mean','distinct','missing'];"></tr>
+</table>
