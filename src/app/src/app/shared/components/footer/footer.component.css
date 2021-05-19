@@ -1,0 +1,53 @@
+footer {
+  background-color: #555;
+  color: #bbb;
+  line-height: 1.5;
+}
+footer ul {
+  list-style: none;
+  padding-left: 0;
+}
+footer a {
+  text-decoration: none;
+  color: #eee;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+footer .footer-title {
+  color: #fff;
+  font-size: 1.375rem;
+  padding-bottom: 0.625rem;
+}
+footer .footer-main {
+  padding: 1.25rem 1.875rem;
+}
+footer .footer-main .footer-main-item {
+  padding: 1.25rem;
+  min-width: 12.5rem;
+}
+footer .footer-social {
+  padding: 0 1.875rem 1.25rem;
+}
+footer .footer-social .footer-social-list {
+  border-top: 1px #777 solid;
+  padding-top: 1.25rem;
+}
+footer .footer-social .footer-social-list li {
+  margin: 0.5rem;
+  font-size: 1.25rem;
+}
+footer .footer-social .footer-social-list li img {
+  width: 1.5rem;
+}
+footer .footer-legal {
+  padding: 0.9375rem 1.875rem;
+  background-color: #333;
+}
+footer .footer-legal .footer-legal-list {
+  width: 100%;
+}
+footer .footer-legal .footer-legal-list li {
+  margin: 0.125rem 0.625rem;
+  white-space: nowrap;
+}
