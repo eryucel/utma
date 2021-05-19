@@ -1,0 +1,93 @@
+<p>
+  <mat-toolbar>
+    <span>Veri setleri</span>
+  </mat-toolbar>
+</p>
+
+<div class="table-top d-flex justify-content-between align-items-center">
+  <mat-form-field>
+    <mat-label>Filtrele</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+  <div class="buttons">
+    <button mat-raised-button color="accent" [disabled]="!selection.hasValue()" routerLink="/dashboard/edit-dataset">
+      Düzenle
+    </button>
+    <button mat-raised-button color="primary" (click)="open(content)">Ekle</button>
+  </div>
+</div>
+<div class="mat-elevation-z8">
+  <table class="w-100" mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="id">
+      <!--      <th mat-header-cell *matHeaderCellDef mat-sort-header> Başlık</th>-->
+      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Başlık</th>
+      <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Oluşturulma Tarihi</th>
+      <td mat-cell *matCellDef="let row"> {{row.date}}</td>
+    </ng-container>
+    <ng-container matColumnDef="col">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Sütun</th>
+      <td mat-cell *matCellDef="let row"> {{row.col}} </td>
+    </ng-container>
+    <ng-container matColumnDef="row">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Satır</th>
+      <td mat-cell *matCellDef="let row"> {{row.row}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selection.toggle(row)"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">"{{input.value}}" ile eşeleşen hiçbir veri seti bulunamadı."</td>
+    </tr>
+  </table>
+  <mat-paginator pageSize="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Veriseti ekle</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="d-flex flex-column" [formGroup]="fileFormGroup">
+      <mat-form-field appearance="outline" color="accent" class="datasetName">
+        <mat-label>Veriseti başlığı giriniz</mat-label>
+        <input matInput placeholder="Benim verisetim" [formControlName]="'datasetName'">
+        <!--        <mat-icon matSuffix>analytics</mat-icon>-->
+      </mat-form-field>
+      <ngx-dropzone [expandable]="true" [multiple]="false"
+                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    (change)="onSelect($event)">
+        <ngx-dropzone-label>
+          Verinizi içeren "csv" veya "xlsx" dosyasını alttaki bölüme tıklayarak seçiniz veya sürükleyerek bırakınız.
+        </ngx-dropzone-label>
+        <ngx-dropzone-preview *ngIf="fileFormGroup.controls.file.value" [removable]="true" (removed)="onRemove()">
+          <ngx-dropzone-label>
+            {{ fileFormGroup.controls.file.value.name }} ({{ fileFormGroup.controls.file.value.type }})
+          </ngx-dropzone-label>
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="upload()">Yükle</button>
+  </div>
+</ng-template>
