@@ -1,0 +1,8 @@
+.logo {
+  cursor: pointer;
+
+}
+
+.logo .logo-text {
+  border: 4px solid black;
+}

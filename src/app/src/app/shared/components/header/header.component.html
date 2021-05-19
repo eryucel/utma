@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <a class="navbar-brand" routerLink="/">
+    <img src="assets/logo/logo_utma.png" alt="UTMA logo" width="130" height="60">
+  </a>
+  <button mat-button color="link">Ürünler</button>
+  <button mat-button color="link">Ne işe yarar</button>
+  <button mat-button color="link">Kimler Kullanabilir</button>
+  <button mat-button color="link">Nasıl Kullanılır</button>
+  <button mat-button color="link" routerLink="/account">Biz kimiz</button>
+  <span class="flex flex-grow-1"></span>
+  <div *appShowAuthed="true">
+    <button mat-button color="link" routerLink="/dashboard" routerLinkActive="active">
+      Dashboard
+    </button>
+    <button mat-button color="link">Çıkış yap</button>
+  </div>
+  <div *appShowAuthed="false">
+    <button mat-button color="link" routerLink="/login" routerLinkActive="active">Giriş yap</button>
+    <button mat-button color="link" routerLink="/register" routerLinkActive="active">Kayıt ol</button>
+  </div>
+</mat-toolbar>
