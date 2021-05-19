@@ -1,0 +1,42 @@
+.categoricalAttributesTable {
+  width: 100%;
+}
+.table-container {
+  margin: 2rem 0;
+}
+.table-container .table-title {
+  font-size: 1.5rem;
+}
+tr.categories-detail-row {
+  height: 0;
+}
+tr.categorical-element-row:not(.categorical-expanded-row):hover {
+  background: rgba(255, 255, 255, .04);
+}
+.categorical-expanded-row {
+  background: #555;
+}
+tr.categorical-element-row:not(.categorical-expanded-row):active {
+  background: rgba(255, 255, 255, .05);
+}
+.categorical-element-row td {
+  border-bottom-width: 0;
+}
+.categories-expansion-panel {
+  overflow: hidden;
+  display: flex;
+}
+.mat-form-field {
+  margin-top: 16px;
+}
+.sub-table {
+  flex: 1;
+  width: 100%;
+}
+.sub-table table {
+  width: 100%;
+}
+.expanded-container {
+  width: 100%;
+}
+
