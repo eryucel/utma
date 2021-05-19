@@ -11,6 +11,7 @@ import {NgxDropzoneModule} from "ngx-dropzone";
 import { EditDatasetComponent } from './components/edit-dataset/edit-dataset.component';
 import { NumberAttributesStepComponent } from './components/number-attributes-step/number-attributes-step.component';
 import { CategoricalAttributesStepComponent } from './components/categorical-attributes-step/categorical-attributes-step.component';
+import { DataRowsStepComponent } from './components/data-rows-step/data-rows-step.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { CategoricalAttributesStepComponent } from './components/categorical-att
     AddDatasetComponent,
     EditDatasetComponent,
     NumberAttributesStepComponent,
-    CategoricalAttributesStepComponent
+    CategoricalAttributesStepComponent,
+    DataRowsStepComponent
   ],
   imports: [
     CommonModule,
