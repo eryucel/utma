@@ -12,6 +12,7 @@ import { EditDatasetComponent } from './components/edit-dataset/edit-dataset.com
 import { NumberAttributesStepComponent } from './components/number-attributes-step/number-attributes-step.component';
 import { CategoricalAttributesStepComponent } from './components/categorical-attributes-step/categorical-attributes-step.component';
 import { DataRowsStepComponent } from './components/data-rows-step/data-rows-step.component';
+import {ChartsModule} from "ng2-charts";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DataRowsStepComponent } from './components/data-rows-step/data-rows-ste
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    ChartsModule
   ]
 })
 export class DashboardModule {
