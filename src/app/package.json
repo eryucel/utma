@@ -25,6 +25,8 @@
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "alertifyjs": "^1.13.1",
     "bootstrap": "^4.5.0",
+    "chart.js": "^3.2.1",
+    "ng2-charts": "^2.4.2",
     "ngx-dropzone": "^3.0.0",
     "ngx-papaparse": "^5.0.0",
     "rxjs": "~6.6.0",
