@@ -28,7 +28,6 @@ export class CategoricalAttributesStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.sendDataset.datasetDetail);
     this.categoricalAttributesDataSource = new MatTableDataSource<CategoricalAttribute>(this.sendDataset.datasetDetail.categoricalAttributes);
   }
 
