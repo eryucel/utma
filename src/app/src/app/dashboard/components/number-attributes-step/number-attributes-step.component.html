@@ -26,3 +26,6 @@
   <tr mat-header-row *matHeaderRowDef="['name','min','max','mean','distinct','missing']"></tr>
   <tr mat-row *matRowDef="let row; columns: ['name','min','max','mean','distinct','missing'];"></tr>
 </table>
+<div class="buttons d-flex justify-content-between">
+  <button class="btn btn-primary" routerLink="/dashboard/edit-dataset/categorical-attributes">İleri</button>
+</div>
