@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {NumberAttribute, SendDatasetService} from "../../../core";
-import {UploadedDataset} from "../../../core/models/uploadedDataset";
-import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-edit-dataset',
