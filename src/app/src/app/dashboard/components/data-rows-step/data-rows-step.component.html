@@ -1,1 +1,40 @@
-<p>data-rows-step works!</p>
+<div class="table-top d-flex justify-content-between align-items-center">
+  <mat-form-field>
+    <mat-label>Filtrele</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+  </mat-form-field>
+  <div class="buttons">
+    <mat-slide-toggle color="primary" [checked]="showMissing" (change)="toggleMissing()">Eksikleri veri içerenleri
+      göster
+    </mat-slide-toggle>
+    <button mat-raised-button [disabled]="!selection.hasValue()" color="accent">Düzenle</button>
+    <button mat-raised-button [disabled]="!selection.hasValue()" color="warn">Sil</button>
+    <button mat-raised-button color="primary">Ekle</button>
+  </div>
+</div>
+<div class="table-container">
+  <table class="w-100" mat-table *ngIf="rowsDataSource" [dataSource]="rowsDataSource" matSort>
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container *ngFor="let colName of displayedColumns;let i = index" [matColumnDef]="colName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{colName}}</th>
+      <td mat-cell *matCellDef="let row"> {{row[colName]}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['select'].concat(displayedColumns)"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['select'].concat(displayedColumns);"
+        (click)="selection.toggle(row)"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">"{{input.value}}" ile eşleşen veri bulunamadı.</td>
+    </tr>
+  </table>
+  <mat-paginator [length]="rowsDataSource.data.length" showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
