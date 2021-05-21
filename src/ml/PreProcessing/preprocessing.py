@@ -7,7 +7,7 @@ import numpy as np
 
 class PreProcessing():
 
-  def __init__(self, path,sheet_name=None):
+  def __init__(self, path,sheet_name=0):
     self.path = path
     self.sheet_name = sheet_name
     if re.search('.csv$', self.path) is not None:
