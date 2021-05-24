@@ -1,5 +1,16 @@
 <table mat-table
        [dataSource]="categoricalAttributesDataSource" multiTemplateDataRows class="categoricalAttributesTable w-100">
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="{{column}}" *ngFor="let column of keys;let i = index">
     <th mat-header-cell *matHeaderCellDef> {{turkish[i]}} </th>
     <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
@@ -30,8 +41,8 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="['name','distinct','missing']"></tr>
-  <tr mat-row *matRowDef="let element; columns: ['name','distinct','missing'];"
+  <tr mat-header-row *matHeaderRowDef="['select','name','distinct','missing']"></tr>
+  <tr mat-row *matRowDef="let element; columns: ['select','name','distinct','missing'];"
       class="categorical-element-row"
       [class.categorical-expanded-row]="expandedElement === element"
       (click)="expandedElement = expandedElement === element ? null : element">
@@ -40,5 +51,9 @@
 </table>
 <div class="buttons d-flex justify-content-between">
   <button class="btn btn-secondary" routerLink="/dashboard/edit-dataset/number-attributes" routerLinkActive="active">Geri</button>
+  <button class="btn btn-outline-dark" (click)="labelEncode()">Label</button>
+  <button class="btn btn-outline-dark" (click)="frequencyEncode()">Frekans</button>
+  <button class="btn btn-outline-dark" (click)="oneHotEncode()">One-hot</button>
+  <button class="btn btn-outline-dark" (click)="binaryEncode()">Binary</button>
   <button class="btn btn-primary" routerLink="/dashboard/edit-dataset/data-rows" routerLinkActive="active">İleri</button>
 </div>
