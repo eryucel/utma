@@ -12,7 +12,7 @@ import sys
 #GradientBoostingRegressor
 
 class GBRModel():
-  def __init__(self,predicted_column,path,categorical_columns,sheet_name=True,train_test_split=True,supplied_test_set=None,percentage_split=0.2):
+  def __init__(self,predicted_column,path,categorical_columns,sheet_name=0,train_test_split=True,supplied_test_set=None,percentage_split=0.2):
       self.predicted_column = predicted_column
       self.categorical_columns=categorical_columns
       self.path = path

@@ -12,7 +12,7 @@ from hyperopt import hp,fmin,tpe,Trials
 from hyperopt import space_eval
 
 class GBCModle():
-    def __init__(self, predicted_column, path, categorical_columns, sheet_name=None, train_test_split=True,
+    def __init__(self, predicted_column, path, categorical_columns, sheet_name=0, train_test_split=True,
                  supplied_test_set=None, percentage_split=0.2):
         self.predicted_column = predicted_column
         self.path = path
