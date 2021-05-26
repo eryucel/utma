@@ -113,7 +113,7 @@ class GBRModel():
 			fn=optimziation_function,
 			space=space,
 			algo=tpe.suggest,
-			max_evals=15, #bu değer değerlendirilecek
+			max_evals=100, 
 			trials=trials
 		)
 		self.best_parameters=space_eval(space,result)
@@ -126,3 +126,4 @@ class GBRModel():
 		args={"n_estimators" : n_estimators , "learning_rate" : learning_rate ,
 			  "max_depth" : max_depth  }
 		print(self.training(args))
+		self.visualize()

@@ -112,7 +112,7 @@ class AdaBoost_Regressor():
             fn=optimziation_function,
             space=space,
             algo=tpe.suggest,
-            max_evals=15, #bu değer değerlendirilecek
+            max_evals=100, 
             trials=trials
         )
         self.best_parameters=space_eval(space,result)
@@ -125,3 +125,4 @@ class AdaBoost_Regressor():
         args={"n_estimators" : n_estimators , "random_state" : random_state ,
               "learning_rate" : learning_rate, "loss":loss  }
         print(self.training(args))
+		self.visualize()

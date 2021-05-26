@@ -134,7 +134,7 @@ class SGDRegressionModel():
             fn=optimziation_function,
             space=space,
             algo=tpe.suggest,
-            max_evals=15, #bu değer değerlendirilecek
+            max_evals=100, #bu değer değerlendirilecek
             trials=trials
         )
         self.best_parameters=space_eval(space,result)

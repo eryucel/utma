@@ -109,7 +109,7 @@ class LinearRegressionModel():
             fn=optimziation_function,
             space=space,
             algo=tpe.suggest,
-            max_evals=15, #bu değer değerlendirilecek
+            max_evals=100, #bu değer değerlendirilecek
             trials=trials
         )
         self.best_parameters=space_eval(space,result)
@@ -121,4 +121,4 @@ class LinearRegressionModel():
         args={"fit_intercept":fit_intercept,"normalize":normalize,"n_jobs":n_jobs}
         print(self.training(args))
         print(self.visualize())
-
+		self.visualize()

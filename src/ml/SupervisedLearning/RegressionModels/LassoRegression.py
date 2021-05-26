@@ -121,7 +121,7 @@ class LassoRegressionModel():
           fn=optimziation_function,
           space=space,
           algo=tpe.suggest,
-          max_evals=15, #bu değer değerlendirilecek
+          max_evals=100, #bu değer değerlendirilecek
           trials=trials
       )
       self.best_parameters=space_eval(space,result)
@@ -135,3 +135,4 @@ class LassoRegressionModel():
         args={"alpha":alpha,"fit_intercept":fit_intercept,"normalize":normalize,"random_state":random_state,"max_iter":max_iter}
         print(self.training(args))
         print(self.visualize())
+		self.visualize()
