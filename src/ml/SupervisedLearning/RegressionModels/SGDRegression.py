@@ -1,4 +1,4 @@
-from preprocessing import PreProcessing
+from src.ml.PreProcessing.preprocessing import PreProcessing
 import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn import metrics
@@ -85,21 +85,6 @@ class SGDRegressionModel():
                         'model': linear_model.SGDRegressor,
                         'param':
                           {    
-                              # 'hyper_param_groups' :hp.choice('hyper_param_groups',
-                              #                [
-                              #                   {
-                              #                    'penalty':hp.choice('penalty_block1', ['l2']),
-                              #                    'l1_ratio':hp.choice('l1_ratio1', np.arange(0, 1, 0.1)),
-                              #                   },
-                              #                   {
-                              #                    'penalty':hp.choice('penalty_block2', ['l1']),
-                              #                    'l1_ratio':hp.choice('l1_ratio2', [0.15]),
-                              #                   },
-                              #                   {
-                              #                    'penalty':hp.choice('penalty_block3', ['elasticnet']),
-                              #                    'l1_ratio':hp.choice('l1_ratio3', [0.15]),
-                              #                   },
-                              #                ]),
                               'loss_group' :hp.choice('loss_group',
                                              [
                                                 {

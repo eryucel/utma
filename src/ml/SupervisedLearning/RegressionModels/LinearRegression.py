@@ -1,4 +1,4 @@
-from preprocessing import PreProcessing
+from src.ml.PreProcessing.preprocessing import PreProcessing
 import matplotlib. pyplot as plt
 from sklearn import linear_model
 from sklearn import metrics
