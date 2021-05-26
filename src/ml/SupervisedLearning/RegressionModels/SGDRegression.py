@@ -1,4 +1,4 @@
-from src.ml.PreProcessing.preprocessing import PreProcessing
+from preprocessing import PreProcessing
 import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn import metrics
@@ -7,6 +7,9 @@ from sklearn.metrics import mean_absolute_error
 import numpy as np
 import io
 import sys
+from functools import partial
+from hyperopt import hp,fmin,tpe,Trials
+from hyperopt import space_eval
 
 class SGDRegressionModel():
     def __init__(self, predicted_column, path, categorical_columns,sheet_name=0,train_test_split=True,supplied_test_set=None,percentage_split=0.2):
@@ -47,9 +50,9 @@ class SGDRegressionModel():
         sys.stdout = old_stdout
         return output
 
-    def training(self, train_test_split=True, ):
+    def training(self,args={"max_iter":1000, "tol":1e-3}, train_test_split=True, ):
         self.__get_data()
-        self.regr = linear_model.SGDRegressor(max_iter=1000, tol=1e-3)
+        self.regr = linear_model.SGDRegressor(**args)
         self.regr.fit(self.X_train, self.y_train)
         self.y_pred = self.regr.predict(self.X_test)
         return self.score_estimator(self.y_pred, self.y_test, self.predicted_column)
@@ -73,3 +76,97 @@ class SGDRegressionModel():
         plt.yticks(self.y_test[0:20])
         plt.figure(figsize=(100, 100))
         plt.savefig("SGD_compared_test_and_prediction.png")
+
+    def hyperopt_optimization(self):
+        self.__get_data()
+        def define_space():
+          space = hp.choice('regressor',[
+                        {
+                        'model': linear_model.SGDRegressor,
+                        'param':
+                          {    
+                              # 'hyper_param_groups' :hp.choice('hyper_param_groups',
+                              #                [
+                              #                   {
+                              #                    'penalty':hp.choice('penalty_block1', ['l2']),
+                              #                    'l1_ratio':hp.choice('l1_ratio1', np.arange(0, 1, 0.1)),
+                              #                   },
+                              #                   {
+                              #                    'penalty':hp.choice('penalty_block2', ['l1']),
+                              #                    'l1_ratio':hp.choice('l1_ratio2', [0.15]),
+                              #                   },
+                              #                   {
+                              #                    'penalty':hp.choice('penalty_block3', ['elasticnet']),
+                              #                    'l1_ratio':hp.choice('l1_ratio3', [0.15]),
+                              #                   },
+                              #                ]),
+                              'loss_group' :hp.choice('loss_group',
+                                             [
+                                                {
+                                                 'loss':hp.choice('loss1', ['squared_loss']),
+                                                 'epsilon':hp.choice('epsilon1',[0.1])
+                                                },
+                                                {
+                                                 'loss':hp.choice('loss2', ['huber','epsilon_insensitive', 'squared_epsilon_insensitive']),
+                                                 'epsilon':hp.choice('epsilon2',np.arange(0, 1, 0.1)),
+                                                },
+                                             ]),
+                              'penalty':hp.choice('penalty',['l2','l1','elasticnet'] ),
+                              'alpha':hp.choice('alpha',np.arange(0.01, 1, 0.01)),
+                              'fit_intercept':hp.choice('fit_intercept', [False]),
+                              'random_state':hp.choice('random_state', [range(9, 51, 3)]),
+                              'max_iter':hp.choice('max_iter', range(1000, 3000, 100)),
+                              'learning_rate':hp.choice('learning_rate', ['constant','optimal','invscaling','adaptive']), 
+                              'tol':hp.choice('tol', [1e-3]),
+                          }
+                        }])
+          return space
+        def optimize(args):
+            penalty = args['param']['penalty']
+            # l1_ratio = args['param']['hyper_param_groups']['l1_ratio']
+            loss = args['param']['loss_group']['loss']
+            epsilon = args['param']['loss_group']['epsilon']
+            fit_intercept = args['param']['fit_intercept']
+            alpha = args['param']['alpha']
+            max_iter = args['param']['max_iter']
+            learning_rate = args['param']['learning_rate']
+            tol = args['param']['tol']
+            
+            model=linear_model.SGDRegressor(fit_intercept=fit_intercept,penalty=penalty ,
+                                                loss=loss , epsilon=epsilon,alpha=alpha , 
+                                                max_iter=max_iter,learning_rate=learning_rate ,tol=tol)
+            model.fit(self.X_train,self.y_train)
+            preds=model.predict(self.X_test)
+            #preds=model.predict_proba(self.X_test)
+            accuracy=metrics.r2_score(self.y_test,preds)
+            return -1*accuracy # chek <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        import warnings
+        warnings.filterwarnings('ignore')
+        optimziation_function=partial(optimize)
+        trials=Trials()
+        space=define_space()
+        result=fmin(
+            fn=optimziation_function,
+            space=space,
+            algo=tpe.suggest,
+            max_evals=15, #bu değer değerlendirilecek
+            trials=trials
+        )
+        self.best_parameters=space_eval(space,result)
+        return self.best_parameters
+    def run_optimized_model(self):
+        penalty = self.best_parameters['param']['penalty']
+        # l1_ratio = self.best_parameters['param']['hyper_param_groups']['l1_ratio']
+        loss = self.best_parameters['param']['loss_group']['loss']
+        epsilon = self.best_parameters['param']['loss_group']['epsilon']
+        fit_intercept = self.best_parameters['param']['fit_intercept']
+        alpha = self.best_parameters['param']['alpha']
+        max_iter = self.best_parameters['param']['max_iter']
+        learning_rate = self.best_parameters['param']['learning_rate']
+        tol = self.best_parameters['param']['tol']
+        args={"fit_intercept":fit_intercept,"penalty":penalty ,
+              "loss":loss ,"epsilon":epsilon,"alpha":alpha ,
+              "max_iter":max_iter,"learning_rate":learning_rate ,"tol":tol}
+
+        print(self.training(args))
+        print(self.visualize())
