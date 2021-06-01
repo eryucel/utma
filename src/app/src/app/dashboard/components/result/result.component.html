@@ -1,0 +1,250 @@
+<div *ngIf="result">
+  <div class="d-flex justify-content-center">
+    <table class="table table-bordered text-center">
+      <thead>
+      <tr>
+        <th scope="col" class="w-50">Veriseti</th>
+        <th scope="col">Algoritma</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{result['datasetName']}}</td>
+        <td>{{result['algorithmName']}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-tab-group mat-align-tabs="center" *ngIf="data.default">
+    <mat-tab label="Varsayılan">
+      <mat-accordion>
+        <mat-expansion-panel *ngIf="data.default.training">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Eğitim sonuçları
+            </mat-panel-title>
+            <mat-panel-description>
+              {{result['algorithmName']}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+              <th scope="col" *ngIf="data.default.training.cross_track">cross_track değeri</th>
+              <th scope="col" *ngIf="data.default.training.accuracy">Accuracy değeri</th>
+              <th scope="col" *ngIf="data.default.training.best_k">En iyi k değeri</th>
+              <th scope="col" *ngIf="data.default.training.MSE">Ortalama Kare Hata</th>
+              <th scope="col" *ngIf="data.default.training.MAE">Ortalama Mutlak Hata</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td *ngIf="data.default.training.cross_track">{{data.default.training.cross_track}}</td>
+              <td *ngIf="data.default.training.accuracy">{{data.default.training.accuracy}}</td>
+              <td *ngIf="data.default.training.best_k">{{data.default.training.best_k}}</td>
+              <td *ngIf="data.default.training.MSE">{{data.default.training.MSE}}</td>
+              <td *ngIf="data.default.training.MAE">{{data.default.training.MAE}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+        <table class="table table-bordered text-center" *ngIf="data.default.best_k">
+          <thead>
+          <tr>
+            <th scope="col" *ngIf="data.default.best_k">En iyi k değeri</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{data.default.best_k}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <mat-expansion-panel *ngIf="data.default.visualize">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Görselleştirme
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex justify-content-center">
+            <img src="http://localhost:4200/files/{{data.default.visualize}}" alt="">
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.default.visualize_finalize">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Finalize edilmiş Görselleştirme
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex justify-content-center">
+            <img src="http://localhost:4200/files/{{data.default.visualize_finalize}}" alt="">
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.default.visualize_classes">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Sınıf görselleştirmesi
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex justify-content-center">
+            <img src="http://localhost:4200/files/{{data.default.visualize_classes}}" alt="">
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.default.classification_report">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Sınıflandırma raporu
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+              <th scope="col"
+                  *ngFor="let th of Object.keys(data.default.classification_report['macro avg'])">{{th}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let td of Object.keys(data.default.classification_report)">
+              <tr *ngIf="td!='accuracy'">
+                <td
+                  *ngFor="let th of Object.keys(data.default.classification_report[td])">{{data.default.classification_report[td][th]}}</td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.default.clustered_data">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Kümelenmiş Veriler
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex justify-content-center mb-3">
+            <a href="http://localhost:4200/files/{{data.default.clustered_data.results}}"><img
+              src="assets/download-button-1723003-1465295.png" alt="" style="width: 120px"></a>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="result.task==27 || result.task==28">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Optimum model
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+              <th scope="col">Accuracy</th>
+              <th scope="col">Model</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{data.default.accuracy}}</td>
+              <td>{{data.default.best_model}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+    <mat-tab label="Optimize Edilmiş" *ngIf="data.optimized">
+      <mat-accordion>
+        <mat-expansion-panel *ngIf="data.optimized.training">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Eğitim sonuçları
+            </mat-panel-title>
+            <mat-panel-description>
+              {{result['algorithmName']}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+              <th scope="col" *ngIf="data.optimized.training.cross_track">cross_track değeri</th>
+              <th scope="col" *ngIf="data.optimized.training.accuracy">Accuracy değeri</th>
+              <th scope="col" *ngIf="data.optimized.training.best_k">En iyi k değeri</th>
+              <th scope="col" *ngIf="data.optimized.training.MSE">Ortalama Kare Hata</th>
+              <th scope="col" *ngIf="data.optimized.training.MAE">Ortalama Mutlak Hata</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td *ngIf="data.optimized.training.cross_track">{{data.optimized.training.cross_track}}</td>
+              <td *ngIf="data.optimized.training.accuracy">{{data.optimized.training.accuracy}}</td>
+              <td *ngIf="data.optimized.training.best_k">{{data.optimized.training.best_k}}</td>
+              <td *ngIf="data.optimized.training.MSE">{{data.optimized.training.MSE}}</td>
+              <td *ngIf="data.optimized.training.MAE">{{data.optimized.training.MAE}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.optimized.visualize">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Görselleştirme
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex justify-content-center">
+            <img src="http://localhost:4200/files/{{data.optimized.visualize}}" alt="">
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.optimized.visualize_classes">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Sınıf görselleştirmesi
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="d-flex justify-content-center">
+            <img src="http://localhost:4200/files/{{data.optimized.visualize_classes}}" alt="">
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.optimized.classification_report">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Sınıflandırma raporu
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+              <th scope="col"
+                  *ngFor="let th of Object.keys(data.optimized.classification_report['macro avg'])">{{th}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let td of Object.keys(data.optimized.classification_report)">
+              <tr *ngIf="td!='accuracy'">
+                <td
+                  *ngFor="let th of Object.keys(data.optimized.classification_report[td])">{{data.optimized.classification_report[td][th]}}</td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="data.optimized.best_parameters">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Optimum parametreler
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <table class="table table-bordered text-center">
+            <thead>
+            <tr>
+              <th scope="col"
+                  *ngFor="let th of Object.keys(data.optimized.best_parameters)">{{th}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td *ngFor="let th of Object.keys(data.optimized.best_parameters)">
+                {{data.optimized.best_parameters[th]}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+  </mat-tab-group>
+</div>

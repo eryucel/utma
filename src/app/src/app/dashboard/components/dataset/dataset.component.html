@@ -10,7 +10,7 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
   <div class="buttons">
-    <button mat-raised-button color="accent" [disabled]="!selection.hasValue()" routerLink="/dashboard/edit-dataset">
+    <button class="mr-2" mat-raised-button color="accent" [disabled]="!selection.hasValue()" (click)="editDataset()">
       Düzenle
     </button>
     <button mat-raised-button color="primary" (click)="open(content)">Ekle</button>
@@ -33,13 +33,9 @@
       <!--      <th mat-header-cell *matHeaderCellDef mat-sort-header> Başlık</th>-->
       <td mat-cell *matCellDef="let row"> {{row.id}} </td>
     </ng-container>
-    <ng-container matColumnDef="title">
+    <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Başlık</th>
-      <td mat-cell *matCellDef="let row"> {{row.title}} </td>
-    </ng-container>
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Oluşturulma Tarihi</th>
-      <td mat-cell *matCellDef="let row"> {{row.date}}</td>
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
     </ng-container>
     <ng-container matColumnDef="col">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Sütun</th>

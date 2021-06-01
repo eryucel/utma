@@ -1,4 +1,15 @@
 <table mat-table [dataSource]="numberAttributesDataSource" class="numberAttributesTable w-100">
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Özellik</th>
     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -23,9 +34,14 @@
     <th mat-header-cell *matHeaderCellDef> Eksik</th>
     <td mat-cell *matCellDef="let element"> {{element.missing}} </td>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="['name','min','max','mean','distinct','missing']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['name','min','max','mean','distinct','missing'];"></tr>
+  <tr mat-header-row *matHeaderRowDef="['select','name','min','max','mean','distinct','missing']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['select','name','min','max','mean','distinct','missing'];"></tr>
 </table>
-<div class="buttons d-flex justify-content-between">
+<div class="buttons d-flex justify-content-between mt-3">
+  <button class="btn btn-danger" (click)="undo()">Geri al</button>
+  <button class="btn btn-outline-dark" [disabled]="!selection.selected" (click)="randomFill()">Rastgele Doldur
+  </button>
+  <button class="btn btn-outline-dark" [disabled]="!selection.selected" (click)="meanFill()">Ortalama Doldur</button>
+  <button class="btn btn-outline-dark" [disabled]="!selection.selected">Sabit doldur</button>
   <button class="btn btn-primary" routerLink="/dashboard/edit-dataset/categorical-attributes">İleri</button>
 </div>

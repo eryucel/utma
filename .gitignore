@@ -3,4 +3,5 @@
 src/api/.idea/misc.xml
 src/api/.idea/*
 src/api/venv/*
+src/api/files/*
 *__pycache__

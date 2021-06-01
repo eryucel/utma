@@ -9,10 +9,13 @@
   <button mat-button color="link" routerLink="/account">Biz kimiz</button>
   <span class="flex flex-grow-1"></span>
   <div *appShowAuthed="true">
-    <button mat-button color="link" routerLink="/dashboard" routerLinkActive="active">
-      Dashboard
+    <button mat-button color="link" routerLink="/dashboard/datasets" routerLinkActive="active">
+      Verisetleri
     </button>
-    <button mat-button color="link">Çıkış yap</button>
+    <button mat-button color="link" routerLink="/dashboard/task" routerLinkActive="active">
+      Görevler
+    </button>
+    <button mat-button color="link" (click)="logout()">Çıkış yap</button>
   </div>
   <div *appShowAuthed="false">
     <button mat-button color="link" routerLink="/login" routerLinkActive="active">Giriş yap</button>

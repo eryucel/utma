@@ -1,0 +1,154 @@
+<p>
+  <mat-toolbar>
+    <span>Görevler</span>
+  </mat-toolbar>
+</p>
+
+<div class="table-top d-flex justify-content-between align-items-center">
+  <mat-form-field>
+    <mat-label>Filtrele</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+  <div class="buttons">
+    <button class="mr-2" mat-raised-button color="accent"
+            [disabled]="!selection.hasValue()||selection.selected[0].status==0"
+            (click)="view()">Görüntüle
+    </button>
+    <button mat-raised-button color="primary" (click)="open(content)">Ekle</button>
+  </div>
+</div>
+<div class="mat-elevation-z8">
+  <table class="w-100" mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="id">
+      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="dataset">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Veriseti</th>
+      <td mat-cell *matCellDef="let row"> {{row.datasetName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="algorithm">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Algoritma</th>
+      <td mat-cell *matCellDef="let row"> {{row.algorithmName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Durum</th>
+      <td mat-cell *matCellDef="let row"> {{row.status == 0 ? 'Devam ediyor' : 'tamamlandı'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="create_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Oluşturma tarihi</th>
+      <td mat-cell *matCellDef="let row"> {{row.create_date|date:'medium'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="completed_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tamamlanma tarihi</th>
+      <td mat-cell *matCellDef="let row"> {{row.completed_date|date:'medium'}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selection.toggle(row)"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">"{{input.value}}" ile eşeleşen hiçbir veri seti bulunamadı."</td>
+    </tr>
+  </table>
+  <mat-paginator pageSize="25" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Görev oluştur</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss();resetAll()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex flex-column">
+      <mat-form-field appearance="fill">
+        <mat-label>Algoritma Türü</mat-label>
+        <mat-select [(value)]="algorithmType" (valueChange)="algorithm = 0">
+          <mat-option value="1">Supervised Classification</mat-option>
+          <mat-option value="2">Supervised Regression</mat-option>
+          <mat-option value="3">Unsupervised</mat-option>
+          <mat-option value="4">Automated Model Selection</mat-option>
+          <mat-option value="5">Univariate Time Series</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Algoritma</mat-label>
+        <mat-select [(value)]="algorithm" [disabled]="algorithmType==0">
+          <ng-container *ngIf="algorithmType == 1">
+            <mat-option value="1">Adaboost</mat-option>
+            <mat-option value="2">Decision Tree</mat-option>
+            <mat-option value="3">Gaussian Naive Bayes</mat-option>
+            <mat-option value="4">Gradient Boosting</mat-option>
+            <mat-option value="5">KNN</mat-option>
+            <mat-option value="6">Logistic Regression</mat-option>
+            <mat-option value="7">Random Forest</mat-option>
+            <mat-option value="8">SVM</mat-option>
+          </ng-container>
+          <ng-template [ngIf]="algorithmType == 2">
+            <mat-option value="9">Adaboost</mat-option>
+            <mat-option value="10">Bayesian Ridge</mat-option>
+            <mat-option value="11">Gradient Boosting</mat-option>
+            <mat-option value="12">Lasso</mat-option>
+            <mat-option value="13">Linear</mat-option>
+            <mat-option value="14">Random Forest</mat-option>
+            <mat-option value="15">SGD</mat-option>
+          </ng-template>
+          <ng-template [ngIf]="algorithmType == 3">
+            <mat-option value="16">DBSCAN</mat-option>
+            <mat-option value="17">Hierarchical Clustering</mat-option>
+            <mat-option value="18">K-means</mat-option>
+          </ng-template>
+          <ng-template [ngIf]="algorithmType == 4">
+            <mat-option value="19">Classification</mat-option>
+            <mat-option value="20">Regression</mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Veriseti</mat-label>
+        <mat-select [(value)]="dataset">
+          <mat-option *ngFor="let dataset of datasets" [value]="dataset">{{dataset.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" *ngIf="algorithm==17">
+        <mat-label>n-cluster değeri</mat-label>
+        <input matInput type="number" [(ngModel)]="n_cluster" [min]="1">
+      </mat-form-field>
+      <ng-template [ngIf]="algorithmType!=3">
+        <mat-form-field appearance="fill">
+          <mat-label>Tahmin edilecek özellik</mat-label>
+          <mat-select [(value)]="predicted_column">
+            <ng-template [ngIf]="dataset">
+              <mat-option *ngFor="let attr of getAttrs(dataset)" [value]="attr">{{attr}}</mat-option>
+            </ng-template>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox (change)="test_split=$event.checked">Farklı bir verisetiyle test</mat-checkbox>
+        <mat-form-field appearance="fill" *ngIf="test_split">
+          <mat-label>Test Veriseti</mat-label>
+          <mat-select [(value)]="test_dataset">
+            <mat-option *ngFor="let dataset of datasets" [value]="dataset">{{dataset.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="!test_split">
+          <mat-label>Test oranı</mat-label>
+          <input matInput type="number" [(ngModel)]="percentage" [min]="1" [max]="100">
+        </mat-form-field>
+      </ng-template>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="run()">Çalıştır</button>
+  </div>
+</ng-template>

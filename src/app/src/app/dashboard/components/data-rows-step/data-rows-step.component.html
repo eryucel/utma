@@ -4,12 +4,13 @@
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
   <div class="buttons">
-    <mat-slide-toggle color="primary" [checked]="showMissing" (change)="toggleMissing()">Eksikleri veri içerenleri
+    <mat-slide-toggle class="mr-2" color="primary" [checked]="showMissing" (change)="toggleMissing()">Eksikleri veri
+      içerenleri
       göster
     </mat-slide-toggle>
-    <button mat-raised-button [disabled]="!selection.hasValue()" color="accent">Düzenle</button>
-    <button mat-raised-button [disabled]="!selection.hasValue()" color="warn">Sil</button>
-    <button mat-raised-button color="primary">Ekle</button>
+    <button class="mr-2" mat-raised-button [disabled]="!selection.hasValue()" color="accent">Düzenle</button>
+    <button class="mr-2" mat-raised-button [disabled]="!selection.hasValue()" color="warn">Sil</button>
+    <button class="mr-2" mat-raised-button color="primary">Ekle</button>
   </div>
 </div>
 <div class="table-container">
@@ -36,5 +37,13 @@
       <td class="mat-cell" colspan="4">"{{input.value}}" ile eşleşen veri bulunamadı.</td>
     </tr>
   </table>
-  <mat-paginator [length]="rowsDataSource.data.length" showFirstLastButtons [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [length]="rowsDataSource.data.length" showFirstLastButtons [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <div class="buttons d-flex justify-content-end my-2">
+    <button class="btn btn-secondary mr-2" routerLink="/dashboard/edit-dataset/categorical-attributes"
+            routerLinkActive="active">
+      Geri
+    </button>
+    <button class="btn btn-primary" (click)="save()">Kaydet</button>
+  </div>
 </div>

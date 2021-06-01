@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User, UserService} from "../../../core";
+import {JwtService, User, UserService} from "../../../core";
 
 @Component({
   selector: 'app-header',
@@ -10,8 +10,12 @@ export class HeaderComponent implements OnInit {
 
   currentUser!: User;
 
-  constructor(
-    private userService: UserService) {
+  constructor(private jwtSevice: JwtService,
+              private userService: UserService) {
+  }
+
+  logout() {
+    this.jwtSevice.destroyToken();
   }
 
   ngOnInit(): void {

@@ -14,6 +14,8 @@ import {
 } from "../../../core";
 import {Papa} from "ngx-papaparse";
 import {Router} from "@angular/router";
+import {FileService} from "../../../core/services/file.service";
+import {DatasetService} from "../../../core/services/dataset.service";
 
 
 @Component({
@@ -24,7 +26,7 @@ import {Router} from "@angular/router";
 export class DatasetComponent implements OnInit, AfterViewInit {
 
   selection = new SelectionModel<any>(false, []);
-  displayedColumns: string[] = ['select', 'title', 'date', 'col', 'row'];
+  displayedColumns: string[] = ['select', 'name', 'col', 'row'];
   dataSource: MatTableDataSource<any>;
   rowsData: any;
   fileFormGroup: FormGroup;
@@ -39,50 +41,14 @@ export class DatasetComponent implements OnInit, AfterViewInit {
               private formBuilder: FormBuilder,
               private alertService: AlertService,
               private router: Router,
-              private sendDataset: SendDatasetService) {
+              private sendDataset: SendDatasetService,
+              private fileService: FileService,
+              private datasetService: DatasetService) {
     this.fileFormGroup = this.formBuilder.group({
       datasetName: ['', Validators.required],
       file: ['', Validators.required]
     });
-    this.dataSource = new MatTableDataSource(
-      // [
-      //   {
-      //     id: 1,
-      //     title: 'Veri Seti 1',
-      //     date: '02/12/2020',
-      //     col: 8,
-      //     row: 350
-      //   },
-      //   {
-      //     id: 2,
-      //     title: 'Veri Seti 2',
-      //     date: '01/12/2020',
-      //     col: 24,
-      //     row: 125
-      //   },
-      //   {
-      //     id: 3,
-      //     title: 'Veri Seti 3',
-      //     date: '22/11/2020',
-      //     col: 11,
-      //     row: 30
-      //   },
-      //   {
-      //     id: 4,
-      //     title: 'Veri Seti 4',
-      //     date: '21/11/2020',
-      //     col: 56,
-      //     row: 213
-      //   },
-      //   {
-      //     id: 5,
-      //     title: 'Veri Seti 5',
-      //     date: '07/10/2020',
-      //     col: 4,
-      //     row: 3250
-      //   }
-      // ]
-    );
+    this.dataSource = new MatTableDataSource();
   }
 
   ngAfterViewInit(): void {
@@ -91,6 +57,11 @@ export class DatasetComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.datasetService.getDatasets().subscribe(res => {
+      this.dataSource = new MatTableDataSource(res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   applyFilter(event: Event): void {
@@ -126,65 +97,121 @@ export class DatasetComponent implements OnInit, AfterViewInit {
     this.fileFormGroup.controls.file.setValue('');
   }
 
-  upload(): void {
-    this.parseFile();
+  editDataset(): void {
+    this.upload(this.selection.selected[0].id);
+  }
+
+  upload(dataset_id: number = 0): void {
+    this.parseFile(dataset_id);
     this.modalService.dismissAll();
   }
 
-  parseFile(): void {
-    if (this.fileFormGroup.controls.file.value.name.includes('.csv')) {
-      this.parseCsv();
-    } else if (this.fileFormGroup.controls.file.value.name.includes('.xlsx')) {
-      // this.parseXlsx();
-    }
+  parseFile(dataset_id: number): void {
+    // if (this.fileFormGroup.controls.file.value.name.includes('.csv')) {
+    this.parseCsv(dataset_id);
+    // } else if (this.fileFormGroup.controls.file.value.name.includes('.xlsx')) {
+    // this.parseXlsx();
+    // }
   }
 
-  parseCsv(): void {
-    this.papa.parse(this.fileFormGroup.controls.file.value, {
-      complete: (results => {
-        this.rowsData = results;
-        for (const [key, val] of Object.entries(results.data[0])) {
-          const col = results.data.map((el: { [x: string]: any; }) => el[key]).filter((el: null) => el != null);
-          if (typeof val === 'number') {
-            this.numberAttributesData.push({
-              distinct: new Set(col).size,
-              max: Math.max.apply(Math, col),
-              mean: col.reduce((a: any, b: any) => a + b, 0) / col.length,
-              min: Math.min.apply(Math, col),
-              missing: results.data.length - col.length,
-              name: key
-            });
-          } else if (typeof val === 'string' || typeof val === 'boolean') {
-            const tempCategories: AttributeCategory[] = [];
-            const distinct = new Set<string>(col);
-            distinct.forEach(value => {
-              let count = 0;
-              for (const el of col) {
-                if (el === value) {
-                  count++;
+  parseCsv(dataset_id: number): void {
+    if (dataset_id == 0) {
+      this.papa.parse(this.fileFormGroup.controls.file.value, {
+        complete: results => {
+          this.rowsData = results;
+          for (const [key, val] of Object.entries(results.data[0])) {
+            const col = results.data.map((el: { [x: string]: any; }) => el[key]).filter((el: null) => el != null);
+            if (typeof val === 'number') {
+              this.numberAttributesData.push({
+                distinct: new Set(col).size,
+                max: Math.max.apply(Math, col),
+                mean: col.reduce((a: any, b: any) => a + b, 0) / col.length,
+                min: Math.min.apply(Math, col),
+                missing: results.data.length - col.length,
+                name: key
+              });
+            } else if (typeof val === 'string' || typeof val === 'boolean') {
+              const tempCategories: AttributeCategory[] = [];
+              const distinct = new Set<string>(col);
+              distinct.forEach(value => {
+                let count = 0;
+                for (const el of col) {
+                  if (el === value) {
+                    count++;
+                  }
                 }
-              }
-              tempCategories.push({name: value, count});
-            });
-            this.categoricalAttributesData.push({
-              categories: tempCategories,
-              distinct: distinct.size,
-              missing: results.data.length - col.length,
-              name: key
-            });
+                tempCategories.push({name: value, count});
+              });
+              this.categoricalAttributesData.push({
+                categories: tempCategories,
+                distinct: distinct.size,
+                missing: results.data.length - col.length,
+                name: key
+              });
+            }
           }
-        }
-        this.sendDataset.setDatasetDetail({
-          name: this.fileFormGroup.controls.datasetName.value,
-          rowsData: this.rowsData,
-          categoricalAttributes: this.categoricalAttributesData,
-          numberAttributes: this.numberAttributesData
-        });
-        this.router.navigate(['/dashboard/edit-dataset']);
-      }),
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      header: true,
-    });
+          this.sendDataset.setDatasetDetail({
+            id: dataset_id,
+            name: this.fileFormGroup.controls.datasetName.value,
+            rowsData: this.rowsData,
+            categoricalAttributes: this.categoricalAttributesData,
+            numberAttributes: this.numberAttributesData
+          });
+          this.router.navigate(['/dashboard/edit-dataset']);
+        },
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        header: true,
+      });
+    } else {
+      this.papa.parse(this.fileService.getFileUrl(this.selection.selected[0].data), {
+        download: true,
+        complete: results => {
+          this.rowsData = results;
+          for (const [key, val] of Object.entries(results.data[0])) {
+            const col = results.data.map((el: { [x: string]: any; }) => el[key]).filter((el: null) => el != null);
+            if (typeof val === 'number') {
+              this.numberAttributesData.push({
+                distinct: new Set(col).size,
+                max: Math.max.apply(Math, col),
+                mean: col.reduce((a: any, b: any) => a + b, 0) / col.length,
+                min: Math.min.apply(Math, col),
+                missing: results.data.length - col.length,
+                name: key
+              });
+            } else if (typeof val === 'string' || typeof val === 'boolean') {
+              const tempCategories: AttributeCategory[] = [];
+              const distinct = new Set<string>(col);
+              distinct.forEach(value => {
+                let count = 0;
+                for (const el of col) {
+                  if (el === value) {
+                    count++;
+                  }
+                }
+                tempCategories.push({name: value, count});
+              });
+              this.categoricalAttributesData.push({
+                categories: tempCategories,
+                distinct: distinct.size,
+                missing: results.data.length - col.length,
+                name: key
+              });
+            }
+          }
+          this.sendDataset.setDatasetDetail({
+            id: dataset_id,
+            name: this.selection.selected[0].name,
+            rowsData: this.rowsData,
+            categoricalAttributes: this.categoricalAttributesData,
+            numberAttributes: this.numberAttributesData
+          });
+          this.router.navigate(['/dashboard/edit-dataset']);
+        },
+        dynamicTyping: true,
+        skipEmptyLines: true,
+        header: true,
+      });
+    }
   }
 }

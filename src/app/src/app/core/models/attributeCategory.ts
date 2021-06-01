@@ -1,4 +1,4 @@
 export class AttributeCategory {
-  name: string | undefined;
-  count: number | undefined;
+  name: string = '';
+  count: number = 0;
 }

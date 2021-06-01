@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2eedbde3-1541-4507-b0e1-59d5ff5ce07e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/app/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/src/app/dashboard/dashboard-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/src/app/dashboard/dashboard-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/src/app/dashboard/dashboard.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/src/app/dashboard/dashboard.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/src/polyfills.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/src/polyfills.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/src/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/src/test.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1sr1Cyk6qcYGNFys9yKiHaCvLth" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/app" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2eedbde3-1541-4507-b0e1-59d5ff5ce07e" name="Default Changelist" comment="" />
+      <created>1621615770819</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621615770819</updated>
+      <workItem from="1621615773501" duration="12000" />
+    </task>
+    <servers />
+  </component>
+</project>

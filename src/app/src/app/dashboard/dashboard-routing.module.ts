@@ -6,6 +6,7 @@ import {NumberAttributesStepComponent} from "./components/number-attributes-step
 import {CategoricalAttributesStepComponent} from "./components/categorical-attributes-step/categorical-attributes-step.component";
 import {DataRowsStepComponent} from "./components/data-rows-step/data-rows-step.component";
 import {ResultComponent} from "./components/result/result.component";
+import {TaskComponent} from "./components/task/task.component";
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
       {path: '', redirectTo: 'datasets', pathMatch: 'full'},
       {path: 'datasets', component: DatasetComponent},
       {path: 'add-dataset', component: AddDatasetComponent},
-      {path: 'result', component: ResultComponent},
+      {path: 'task', component: TaskComponent},
+      {path: 'result/:id', component: ResultComponent},
       {
         path: 'edit-dataset', component: EditDatasetComponent, children: [
           {path: '', redirectTo: 'number-attributes', pathMatch: 'full'},

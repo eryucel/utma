@@ -14,10 +14,10 @@ tr.categorical-element-row:not(.categorical-expanded-row):hover {
   background: rgba(255, 255, 255, .04);
 }
 .categorical-expanded-row {
-  background: #555;
+  background: rgba(231, 232, 226, 0.83);
 }
 tr.categorical-element-row:not(.categorical-expanded-row):active {
-  background: rgba(255, 255, 255, .05);
+  background: rgba(231, 232, 226, 0.83);
 }
 .categorical-element-row td {
   border-bottom-width: 0;

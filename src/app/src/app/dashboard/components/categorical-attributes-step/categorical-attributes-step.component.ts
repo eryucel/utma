@@ -23,6 +23,9 @@ export class CategoricalAttributesStepComponent implements OnInit {
   categoricalAttributesDataSource: MatTableDataSource<CategoricalAttribute> = new MatTableDataSource<CategoricalAttribute>();
   expandedElement?: CategoricalAttribute;
 
+  //@ts-ignore
+  last = {};
+
   keys = ['name', 'distinct', 'missing'];
   turkish = ['İsim', 'Ayrık', 'Eksik'];
 
@@ -47,7 +50,13 @@ export class CategoricalAttributesStepComponent implements OnInit {
     return '';
   }
 
+  undo() {
+    this.sendDataset.datasetDetail = JSON.parse(JSON.stringify(this.last));
+    this.categoricalAttributesDataSource = new MatTableDataSource<NumberAttribute>(this.sendDataset.datasetDetail.categoricalAttributes);
+  }
+
   labelEncode() {
+    this.last = JSON.parse(JSON.stringify(this.sendDataset.datasetDetail));
     //@ts-ignore
     let category = this.sendDataset.datasetDetail.categoricalAttributes.filter(category => {
       return category.name == this.selection.selected[0].name;
@@ -74,6 +83,7 @@ export class CategoricalAttributesStepComponent implements OnInit {
   }
 
   frequencyEncode() {
+    this.last = JSON.parse(JSON.stringify(this.sendDataset.datasetDetail));
     //@ts-ignore
     let category = this.sendDataset.datasetDetail.categoricalAttributes.filter(category => {
       return category.name == this.selection.selected[0].name;
@@ -106,6 +116,7 @@ export class CategoricalAttributesStepComponent implements OnInit {
   }
 
   oneHotEncode() {
+    this.last = JSON.parse(JSON.stringify(this.sendDataset.datasetDetail));
     //@ts-ignore
     let category = this.sendDataset.datasetDetail.categoricalAttributes.filter(category => {
       return category.name == this.selection.selected[0].name;
@@ -156,6 +167,7 @@ export class CategoricalAttributesStepComponent implements OnInit {
   }
 
   binaryEncode() {
+    this.last = JSON.parse(JSON.stringify(this.sendDataset.datasetDetail));
     //@ts-ignore
     let category = this.sendDataset.datasetDetail.categoricalAttributes.filter(category => {
       return category.name == this.selection.selected[0].name;
@@ -211,7 +223,38 @@ export class CategoricalAttributesStepComponent implements OnInit {
     this.categoricalAttributesDataSource._updateChangeSubscription();
   }
 
+  fillMax() {
+    this.last = JSON.parse(JSON.stringify(this.sendDataset.datasetDetail));
+    let tmpMax = '';
+    let max = 0;
+    this.selection.selected[0].categories.forEach((el: { count: number; name: string; }) => {
+      if (el.count > max) {
+        max = el.count;
+        tmpMax = el.name;
+      }
+    });
+    this.selection.selected[0].categories.forEach((el: { count: number; name: string; }) => {
+      if (el.name == tmpMax) {
+        el.count += this.selection.selected[0].missing;
+      }
+    });
+    this.sendDataset.datasetDetail.rowsData.data.forEach((el: { [s: string]: unknown; } | ArrayLike<unknown>) => {
+      // @ts-ignore
+      if (el[this.selection.selected[0].name] == null) {
+        // @ts-ignore
+        el[this.selection.selected[0].name] = tmpMax;
+      }
+    });
+    const col = this.sendDataset.datasetDetail.rowsData.data.map((el: { [x: string]: any; }) => el[this.selection.selected[0].name]).filter((el: null) => el != null);
+    this.sendDataset.datasetDetail.categoricalAttributes?.map(categoricAttribute => {
+      if (categoricAttribute.name == this.selection.selected[0].name) {
+        categoricAttribute.distinct = new Set(col).size;
+        categoricAttribute.missing = this.sendDataset.datasetDetail.rowsData.data.length - col.length;
+      }
+    });
+    this.categoricalAttributesDataSource._updateChangeSubscription();
 
+  }
 
   zeroFill(number: any, width: any) {
     width -= number.toString().length;

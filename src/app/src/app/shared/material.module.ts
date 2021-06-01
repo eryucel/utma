@@ -14,6 +14,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatSelectModule} from "@angular/material/select";
 
 const materialModules = [
   MatToolbarModule,
@@ -31,7 +33,9 @@ const materialModules = [
   MatStepperModule,
   MatExpansionModule,
   MatCheckboxModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatTabsModule,
+  MatSelectModule
 ];
 
 @NgModule({

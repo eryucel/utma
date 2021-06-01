@@ -12,6 +12,8 @@ import {CategoricalAttributesStepComponent} from './components/categorical-attri
 import {DataRowsStepComponent} from './components/data-rows-step/data-rows-step.component';
 import {ResultComponent} from './components/result/result.component';
 import {ChartsModule} from "ng2-charts";
+import { TaskComponent } from './components/task/task.component';
+import { ResultsComponent } from './components/results/results.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import {ChartsModule} from "ng2-charts";
     NumberAttributesStepComponent,
     CategoricalAttributesStepComponent,
     DataRowsStepComponent,
-    ResultComponent
+    ResultComponent,
+    TaskComponent,
+    ResultsComponent
   ],
   imports: [
     CommonModule,
