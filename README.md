@@ -1,67 +1,65 @@
 <p align="center">
-  <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <img src="images/logo.png" alt="Logo" width="600" height="300">
   <h3 align="center">UTMA Machine Learning Platform</h3>
 </p>
 
 
-<details open="open">
-  <summary><h2 style="display: inline-block">İçerik</h2></summary>
-  <ol>
-    <li>
-      <a href="#proje-hakkında">Proje Hakkında</a>
-      <ul>
-        <li><a href="#özet">Özet</a></li>
-      </ul>
-      <ul>
-        <li><a href="#kullanılan-teknolojiler">Kullanılan Teknolojiler</a></li>
-      </ul>
+<summary><h2 style="display: inline-block">İçerik</h2></summary>
+<ol>
+  <li>
+    <a href="#proje-hakkında">Proje Hakkında</a>
+    <ul>
+      <li><a href="#özet">Özet</a></li>
+    </ul>
+    <ul>
+      <li><a href="#kullanılan-teknolojiler">Kullanılan Teknolojiler</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#gerçekleştirilen-algoritmalar">Gerçekleştirilen Algoritmalar</a>
+  </li>
+  <li>
+    <a href="#veri-seti-filtreleri">Veri Seti Filtreleri</a>
+    <ul>
+    <li><a href="#etiket-kodlama">Etiket Kodlama</a></li>
+    <li><a href="#frekans-kodlama">Frekans Kodlama</a></li>
+    <li><a href="#one-hot-kodlama">One-hot Kodlama</a></li>
+    <li><a href="#binary-kodlama">Binary Kodlama</a></li>
+    <li><a href="#tarih-nümerik-cevirici">Tarih Nümerik Çevirici</a></li>
+    <li><a href="#eksik-alan-doldurma">Eksik Alan Doldurma</a>
+    <ul>
+    <li><a href="#rastgele">Rastgele</a></li>
+    <li><a href="#ortalamaya-göre">Ortalamaya Göre</a></li>
+    <li><a href="#sabit">Sabit</a></li>
+    </ul>
     </li>
-    <li>
-      <a href="#gerçekleştirilen-algoritmalar">Gerçekleştirilen Algoritmalar</a>
+    <li><a href="#ortalama-düzenleme">Ortalama Düzenleme</a></li>
+    <li><a href="#tekrarları-kaldırma">Tekrarları Kaldırma</a></li>
+    <li><a href="#aralığa-göre-veri-silme">Aralığa Göre Veri Silme</a></li>
+    </ul>
+  </li>
+  <li><a href="#uygulamadan-görseller">Uygulamadan görseller</a>
+    <ul>
+      <li><a href="#veri-seti-ekleme">Veri Seti Ekleme</a></li>
+      <li><a href="#kategorik-veri-düzenleme">Kategorik Veri Düzenleme</a></li>
+      <li><a href="#nümerik-veri-düzenleme">Numerik Veri Düzenleme</a></li>
+      <li><a href="#veri-satırı-düzenleme">Veri Satırı Düzenleme</a></li>
+      <li><a href="#veri-setlerini-görüntüleme">Veri Setlerini Görüntüleme</a></li>
+      <li><a href="#görev-ekleme">Görev Ekleme</a></li>
+      <li><a href="#görevleri-görüntüleme">Görevleri Görüntüleme</a></li>
+      <li><a href="#sonuç-görüntüleme">Sonuç Görüntüleme</a></li>
+      <li><a href="#sınıf-görselleştirmesi-sonucu">Sınıf Görselleştirmesi Sonucu</a></li>
+      <li><a href="#sınıflandırma-raporu-sonucu">Sınıflandırma Raporu Sonucu</a></li>
+      <li><a href="#optimum-parametreler-sonucu">Optimum Parametreler Sonucu</a></li>
+    </ul>
     </li>
-    <li>
-      <a href="#veri-seti-filtreleri">Veri Seti Filtreleri</a>
-      <ul>
-      <li><a href="#etiket-kodlama">Etiket Kodlama</a></li>
-      <li><a href="#frekans-kodlama">Frekans Kodlama</a></li>
-      <li><a href="#one-hot-kodlama">One-hot Kodlama</a></li>
-      <li><a href="#binary-kodlama">Binary Kodlama</a></li>
-      <li><a href="#tarih-nümerik-cevirici">Tarih Nümerik Çevirici</a></li>
-      <li><a href="#eksik-alan-doldurma">Eksik Alan Doldurma</a>
-      <ul>
-      <li><a href="#rastgele">Rastgele</a></li>
-      <li><a href="#ortalamaya-göre">Ortalamaya Göre</a></li>
-      <li><a href="#sabit">Sabit</a></li>
-      </ul>
-      </li>
-      <li><a href="#ortalama-düzenleme">Ortalama Düzenleme</a></li>
-      <li><a href="#tekrarları-kaldırma">Tekrarları Kaldırma</a></li>
-      <li><a href="#aralığa-göre-veri-silme">Aralığa Göre Veri Silme</a></li>
-      </ul>
-    </li>
-    <li><a href="#uygulamadan-görseller">Uygulamadan görseller</a>
-      <ul>
-        <li><a href="#anasayfa">Anasayfa</a></li>
-        <li><a href="#veri-seti-ekleme">Veri Seti Ekleme</a></li>
-        <li><a href="#kategorik-veri-düzenleme">Kategorik Veri Düzenleme</a></li>
-        <li><a href="#nümerik-veri-düzenleme">Numerik Veri Düzenleme</a></li>
-        <li><a href="#veri-satırı-düzenleme">Veri Satırı Düzenleme</a></li>
-        <li><a href="#veri-setlerini-görüntüleme">Veri Setlerini Görüntüleme</a></li>
-        <li><a href="#görev-ekleme">Görev Ekleme</a></li>
-        <li><a href="#görevleri-görüntüleme">Görevleri Görüntüleme</a></li>
-        <li><a href="#sonuç-görüntüleme">Sonuç Görüntüleme</a></li>
-        <li><a href="#sınıf-görselleştirmesi-sonucu">Sınıf Görselleştirmesi Sonucu</a></li>
-        <li><a href="#sınıflandırma-raporu-sonucu">Sınıflandırma Raporu Sonucu</a></li>
-        <li><a href="#optimum-parametreler-sonucu">Optimum Parametreler Sonucu</a></li>
-      </ul>
-      </li>
-    <li><a href="#lisans">Veri Tabanı Tasarımı</a></li>
-    <li><a href="#lisans">Lisans</a></li>
-    <li><a href="#geliştiriciler">Geliştiriciler</a></li>
-  </ol>
-</details>
+  <li><a href="#lisans">Veri Tabanı Tasarımı</a></li>
+  <li><a href="#lisans">Lisans</a></li>
+  <li><a href="#geliştiriciler">Geliştiriciler</a></li>
+</ol>
 
-
+</br>
+</br>
 
 <!-- ABOUT THE PROJECT -->
 ## Proje Hakkında
@@ -69,6 +67,8 @@
 ### Özet
 Kullanıcıların Yazılım, Makine Öğrenmesi gibi teknolojiler bilmesine gerek kalmaksızın hizmet sağlanabilmesini konu alan UTMA Otomatik Makine Öğrenmesi Platformu, Makine Öğrenmesi algoritmalarının Web Sitesinde otomatik olarak sunulması olarak tanımlanmaktadır. Bu sistem sayesinde veri bilimi algoritmaları web sitesinde sunulur. Bu algoritmaların optimizasyonları yapılır ve hangi modelin seçileceği otomatik olarak belirlenir Bu çalışma ile Weka ve BigMl benzeri bir uygulama geliştirilmiştir. Burada kullanıcının işlemleri rahatça yapabilmesi ve yaptığı işlemi anlayabilmesi için görselleştirme tekniklerinden faydalanılmıştır.
 
+</br>
+</br>
 
 
 ### Kullanılan Teknolojiler
@@ -84,10 +84,18 @@ Kullanıcıların Yazılım, Makine Öğrenmesi gibi teknolojiler bilmesine gere
 * [Hyperopt](https://github.com/hyperopt/hyperopt)
 * [Hyperopt-sklearn](https://github.com/hyperopt/hyperopt-sklearn)
 
+</br>
+</br>
 
 ## Gerçekleştirilen Algoritmalar
 
+</br>
+</br>
+
 ## Veri Seti Filtreleri
+
+</br>
+</br>
 
 ### Etiket Kodlama
 Etiket kodlama filtresi ile kategorik özelliklerimizin algoritma tarafından anlaşılabilecek şekilde sayısal biçime dönüştürmeye yarar. Kategorik değerler ve oluşturulacak sayısal değerler arasında ilişki bulunmaz. Bu yüzden rastgele bir sırayla her farklı kategoriye denk, tekrar etmeyecek şekilde sayısal değerler oluşturur.
@@ -153,15 +161,13 @@ Bu filtre sayısal verilerden oluşan sütunlar veri silmeyi ve veri setini kü�
 
 ## Uygulamadan Görseller
 
-### Anasayfa
-<img src="images/anasayfa.png" alt="Anasayfa">
 </br>
 </br>
 
 ### Veri Seti Ekleme
 
-<img src="images/veri-seti-ekleme.png" alt="Veri Seti Ekleme">
 .csv veya .xslx formatında olan verisetinizi isimlendirerek ekleyin.
+<img src="images/veri-seti-ekleme.png" alt="Veri Seti Ekleme">
 </br>
 </br>
 
