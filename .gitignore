@@ -5,3 +5,4 @@ src/api/.idea/*
 src/api/venv/*
 src/api/files/*
 *__pycache__
+.idea/*
