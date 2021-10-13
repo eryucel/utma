@@ -292,7 +292,7 @@ Tamamlanan görev sonucunun olarak optimum verim için kullanılması gereken pa
 
 ## Veritabanı Tasarımı
 
-<img src="images/veritabani-tasarimi.png" alt="Veritabanı Tasarımı">
+<img src="images/veritabani-tasarimi.png" alt="Veritabanı Tasarımı" width="100%">
 </br>
 </br>
 </br>
