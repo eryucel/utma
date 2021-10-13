@@ -52,8 +52,8 @@
       <li><a href="#sınıflandırma-raporu-sonucu">Sınıflandırma Raporu Sonucu</a></li>
       <li><a href="#optimum-parametreler-sonucu">Optimum Parametreler Sonucu</a></li>
     </ul>
-    </li>
-  <li><a href="#lisans">Veri Tabanı Tasarımı</a></li>
+  </li>
+  <li><a href="#veritabanı-tasarımı">Veri Tabanı Tasarımı</a></li>
   <li><a href="#lisans">Lisans</a></li>
   <li><a href="#geliştiriciler">Geliştiriciler</a></li>
 </ol>
@@ -89,11 +89,59 @@ Kullanıcıların Yazılım, Makine Öğrenmesi gibi teknolojiler bilmesine gere
 
 ## Gerçekleştirilen Algoritmalar
 
+<ol>
+<li>Supervised Learning
+  <ol>
+    <li>Classification Models
+      <ul>
+        <li>AdaBoost Classifier</li>
+        <li>Decision Tree</li>
+        <li>Gaussian Naive Bayes</li>
+        <li>Gradient Boosting Classifier</li>
+        <li>KNN</li>
+        <li>Logistic Regression</li>
+        <li>Random Forest Classifier</li>
+        <li>SVM Classification</li>
+      </ul>
+    </li>
+    <li>Regression Models
+      <ul>
+        <li>AdaBoost Regressor</li>
+        <li>Bayesian Rigde Regression</li>
+        <li>Gradient Boosting Regressor</li>
+        <li>Lasso Regression</li>
+        <li>Linear Regression</li>
+        <li>Random Forest Regressor</li>
+        <li>SGD Regression</li>
+      </ul>
+    </li>
+  </ol>
+</li>
+<li>Unsupervised Learning
+  <ul>
+    <li>DBSCAN</li>
+    <li>Hierarchical Clustering</li>
+    <li>K-Means</li>
+  </ul>
+</li>
+<li>Univariate Time Series
+  <ul>
+    <li>Auto Arima Univariate Forecasting</li>
+    <li>Auto Ets Univariate Forecasting</li>
+    <li>Double Exponential Smoothing</li>
+    <li>Exponenial Univariate Forecasting</li>
+    <li>Load And Visualize Time Data</li>
+    <li>Simple Exponental Smoothing</li>
+    <li>Triple Exponential Smoothing</li>
+  </ul>
+</li>
+</ol>
+
 </br>
 </br>
 
 ## Veri Seti Filtreleri
-
+Kullanıcıların veri seti oluştururken, veri setindeki alanları hızlı bir şekilde manipüle etmesine olanak sağlarlar.
 </br>
 </br>
 
@@ -156,13 +204,11 @@ Bu filtre kullanılarak bir sütundaki tekrar eden yani eşsiz olmayan değerler
 Bu filtre sayısal verilerden oluşan sütunlar veri silmeyi ve veri setini küçültmeyi sağlar. Kullanıcıdan alınan aralık değerlerinin içinde kalan tüm satırları silmeye yarar.
 </br>
 </br>
+</br>
 
 
 
 ## Uygulamadan Görseller
-
-</br>
-</br>
 
 ### Veri Seti Ekleme
 
@@ -241,23 +287,31 @@ Tamamlanan görev sonucunun olarak optimum verim için kullanılması gereken pa
 <img src="images/optimum-parametreler-sonucu.png" alt="Optimum Parametreler Sonucu">
 </br>
 </br>
+</br>
 
 
+## Veritabanı Tasarımı
+
+<img src="images/veritabani-tasarimi.png" alt="Veritabanı Tasarımı">
+</br>
+</br>
+</br>
 
 ## Lisans
 
 Distributed under the MIT License. See [LICENSE][license-url] for more information.
-
+</br>
+</br>
 
 ## Geliştiriciler
 
 Hakan Eryücel - hakanerycl@gmail.com [![LinkedIn][linkedin-shield]][linkedin-hakan-url]
 
-Muhammet Çepi - muhammet@gmail.com [![LinkedIn][linkedin-shield]][linkedin-muhammet-url]
+Muhammet Çepi - muhammettarikcepi@gmail.com [![LinkedIn][linkedin-shield]][linkedin-muhammet-url]
 
-Rayan Alheraki - rayan@gmail.com [![LinkedIn][linkedin-shield]][linkedin-rayan-url]
+Rayan Alheraki - rayyanalhiraki3@gmail.com [![LinkedIn][linkedin-shield]][linkedin-rayan-url]
 
-Mahsun Akay - mahsun@gmail.com [![LinkedIn][linkedin-shield]][linkedin-mahsun-url]
+Mahsun Akay - akaymuxin.ma@gmail.com [![LinkedIn][linkedin-shield]][linkedin-mahsun-url]
 
 
 [license-url]: https://github.com/Hakan-er/utma/blob/master/LICENSE.md
