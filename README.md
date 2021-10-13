@@ -53,7 +53,6 @@
       <li><a href="#optimum-parametreler-sonucu">Optimum Parametreler Sonucu</a></li>
     </ul>
   </li>
-  <li><a href="#veritabanı-tasarımı">Veri Tabanı Tasarımı</a></li>
   <li><a href="#lisans">Lisans</a></li>
   <li><a href="#geliştiriciler">Geliştiriciler</a></li>
 </ol>
@@ -285,14 +284,6 @@ Tamamlanan görev sonucunun varsayılan ve optimize edilmiş halinin sınıfland
 
 Tamamlanan görev sonucunun olarak optimum verim için kullanılması gereken parametreleri listeler.
 <img src="images/optimum-parametreler-sonucu.png" alt="Optimum Parametreler Sonucu">
-</br>
-</br>
-</br>
-
-
-## Veritabanı Tasarımı
-
-<img src="images/veritabani-tasarimi.png" alt="Veritabanı Tasarımı">
 </br>
 </br>
 </br>
